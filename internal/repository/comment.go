@@ -10,13 +10,14 @@ import (
 type CommentRepository struct {
 	gorm.Model
 	entity.Comment
+	PostID uint
 }
 
-func SaveComment(c entity.Comment, db gorm.DB) CommentRepository {
+func SaveComment(c entity.Comment, postID uint, db gorm.DB) CommentRepository {
 	obj := CommentRepository{ 
-		Post: *c.Post,
-		Author: *c.Author, 
+		Author: c.Author, 
 		Text: c.Text,
+		PostID: postID,
 	}
 	db.Create(&obj)
 	return obj

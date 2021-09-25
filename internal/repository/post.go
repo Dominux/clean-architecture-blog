@@ -9,7 +9,8 @@ import (
 
 type PostRepository struct {
 	gorm.Model
-	entity.Blog
+	entity.Post
+	Comments []CommentRepository
 }
 
 func SavePost(p entity.Post, db gorm.DB) PostRepository {
