@@ -9,13 +9,11 @@ import (
 
 
 type PostService struct {
-	Entity entity.Post
-	Repo repository.PostRepository
-	DB gorm.DB
+	DB *gorm.DB
 }
 
 func (ps *PostService) CreatePost(title string, text string, author entity.User) (entity.Post, error) {
 	post := entity.CreatePost(title, text, author)
-	postRepository := repository.SavePost(post, ps.DB)
+	postRepository := repository.SavePost(post, *ps.DB)
 	return post, nil
 }

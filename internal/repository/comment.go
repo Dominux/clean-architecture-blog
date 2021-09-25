@@ -13,7 +13,11 @@ type CommentRepository struct {
 }
 
 func SaveComment(c entity.Comment, db gorm.DB) CommentRepository {
-	obj := CommentRepository{ Author: c.Author, Text: c.Text }
+	obj := CommentRepository{ 
+		Post: *c.Post,
+		Author: *c.Author, 
+		Text: c.Text,
+	}
 	db.Create(&obj)
 	return obj
 }
