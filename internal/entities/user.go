@@ -1,4 +1,4 @@
-package entity
+package entities
 
 
 type User string
