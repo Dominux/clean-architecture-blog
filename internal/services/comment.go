@@ -7,9 +7,12 @@ import (
 	"github.com/Dominux/clean_architecture_blog/internal/repository"
 )
 
-
 type CommentService struct {
 	DB *gorm.DB
+}
+
+func NewCommentService(db *gorm.DB) *CommentService {
+	return &CommentService{DB: db}
 }
 
 // Create Comment, return its ID
@@ -18,4 +21,3 @@ func (cs *CommentService) CreateComment(postID uint, author *entities.User, text
 	commentRepository := repository.SaveComment(comment, postID, *cs.DB)
 	return commentRepository.ID, nil
 }
-

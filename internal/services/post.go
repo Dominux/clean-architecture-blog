@@ -1,24 +1,26 @@
 package services
 
 import (
-	"gorm.io/gorm"
-
 	"github.com/Dominux/clean_architecture_blog/internal/entities"
-	"github.com/Dominux/clean_architecture_blog/internal/repository"
+	"github.com/Dominux/clean_architecture_blog/internal/store"
 )
 
 type PostService struct {
-	DB *gorm.DB
+	Store *store.Store
+}
+
+func NewPostService(s *store.Store) *PostService {
+	return &PostService{Store: s}
 }
 
 // Create Post, return its ID or error
-func (ps *PostService) CreatePost(title string, text string, author str) (uint, error) {
-	// Converting author to the User type
-	author := new(*entities.User, author)
+func (ps *PostService) Create(title string, text string, author string) (uint, error) {
+	// Conversion
+	a := entities.User(author)
 
-	post := entities.CreatePost(title, text, author)
+	post := entities.CreatePost(title, text, &a)
 
-	postRepository, err := repository.SavePost(post, *ps.DB)
+	postRepository, err := ps.Store.Post().Create(post)
 	if err != nil {
 		return 0, err
 	}
