@@ -32,3 +32,14 @@ func (pr *PostRepository) Create(p *entities.Post) (uint, error) {
 	}
 	return obj.ID, nil
 }
+
+func (pr *PostRepository) Get() ([]entities.Post, error) {
+	var posts []PostModel
+
+	if result := pr.store.db.Find(&posts); result.Error != nil {
+		log.Printf("Error on creating post in database: %v", result.Error)
+		return nil, result.Error
+	}
+
+	return posts, nil
+}

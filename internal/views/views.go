@@ -9,6 +9,7 @@ type Views interface {
 
 type PostViews interface {
 	Create(c *gin.Context)
+	Get(c *gin.Context)
 }
 
 type CommentViews interface {
