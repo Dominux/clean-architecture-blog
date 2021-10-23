@@ -6,10 +6,10 @@ import (
 )
 
 type PostService struct {
-	Store *store.Store
+	Store store.Store
 }
 
-func NewPostService(s *store.Store) *PostService {
+func NewPostService(s store.Store) *PostService {
 	return &PostService{Store: s}
 }
 
@@ -18,12 +18,12 @@ func (ps *PostService) Create(title string, text string, author string) (uint, e
 	// Conversion
 	a := entities.User(author)
 
-	post := entities.CreatePost(title, text, &a)
+	post := entities.NewPost(title, text, &a)
 
-	postRepository, err := ps.Store.Post().Create(post)
+	postRepositoryID, err := ps.Store.Post().Create(post)
 	if err != nil {
 		return 0, err
 	}
 
-	return postRepository.ID, nil
+	return postRepositoryID, nil
 }

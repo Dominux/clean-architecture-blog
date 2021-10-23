@@ -1,7 +1,6 @@
 package store
 
-
 type Store interface {
-	Post() *PostRepository
-	Comment() *CommentRepository
+	Post() PostRepository
+	// Comment() CommentRepository
 }

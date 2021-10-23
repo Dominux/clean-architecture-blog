@@ -1,18 +1,32 @@
 package main
 
-import "fmt"
+import (
+	"github.com/gin-gonic/gin"
+	"gorm.io/driver/sqlite"
 
-
-type Kek struct {
-	Ahahh string
-}
-
-type Lol struct {
-	Kek *Kek
-	Cheburek string
-}
+	"github.com/Dominux/clean_architecture_blog/internal/store"
+	"github.com/Dominux/clean_architecture_blog/internal/store/gormstore"
+	"github.com/Dominux/clean_architecture_blog/internal/views/web"
+)
 
 func main() {
-	lol := Lol{ Kek: nil }
-	fmt.Printf("%v", lol.Kek)
+	// Creating db
+	db, err := store.NewDB(sqlite.Open("lol.db"))
+	if err != nil {
+		return
+	}
+
+	// Creating store
+	store := gormstore.New(db)
+	store.MigrateSchema()
+
+	// Creating views
+	webViews := web.New(store)
+
+	// Creating router and filling it
+	router := gin.Default()
+	router.POST("/posts", webViews.Post().Create)
+
+	// Starting router
+	router.Run()
 }

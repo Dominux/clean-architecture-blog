@@ -6,14 +6,17 @@ import (
 	"github.com/Dominux/clean_architecture_blog/internal/store"
 )
 
-
 type Store struct {
-	db *gorm.DB
+	db             *gorm.DB
 	postRepository *PostRepository
 }
 
 func New(db *gorm.DB) *Store {
 	return &Store{db: db}
+}
+
+func (s *Store) MigrateSchema() {
+	s.db.AutoMigrate(&PostModel{})
 }
 
 func (s *Store) Post() store.PostRepository {

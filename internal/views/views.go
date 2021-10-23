@@ -1,12 +1,14 @@
 package views
 
+import "github.com/gin-gonic/gin"
+
 type Views interface {
-	Post() *PostViews
-	Comment() *CommentViews
+	Post() PostViews
+	// Comment() CommentViews
 }
 
 type PostViews interface {
-	Create()
+	Create(c *gin.Context)
 }
 
 type CommentViews interface {

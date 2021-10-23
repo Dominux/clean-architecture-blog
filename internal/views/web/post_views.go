@@ -9,15 +9,7 @@ import (
 )
 
 type PostViews struct {
-	views *Views
-	postService *services.PostService
-}
-
-func NewPostViews(v *Views) *PostViews {
-	return &PostViews{
-		views: v,
-		postService: services.NewPostService(v.store),
-	}
+	service *services.PostService
 }
 
 func (pv *PostViews) Create(c *gin.Context) {
@@ -25,7 +17,7 @@ func (pv *PostViews) Create(c *gin.Context) {
 	text := c.PostForm("text")
 	author := c.PostForm("author")
 
-	id, err := pv.postService.Create(title, text, author)
+	id, err := pv.service.Create(title, text, author)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err})

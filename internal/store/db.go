@@ -1,12 +1,20 @@
 package store
 
-import "gorm.io/gorm"
+import (
+	"log"
 
+	"gorm.io/gorm"
+)
 
-func NewDB(dialect str, dbName str) (*gorm.DB, error)
-	DB, err := gorm.Open(dialect, dbName)
-	if err := nil {
+func NewDB(d gorm.Dialector) (*gorm.DB, error) {
+	return NewDBWithConfig(d, &gorm.Config{})
+}
+
+func NewDBWithConfig(d gorm.Dialector, c *gorm.Config) (*gorm.DB, error) {
+	db, err := gorm.Open(d, c)
+	if err != nil {
 		log.Printf("Failed to connect database: %v", err)
 		return nil, err
 	}
-	return DB, nil
+	return db, nil
+}

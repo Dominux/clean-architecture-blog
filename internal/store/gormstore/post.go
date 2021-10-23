@@ -8,11 +8,11 @@ import (
 	"github.com/Dominux/clean_architecture_blog/internal/entities"
 )
 
-
 type PostModel struct {
 	gorm.Model
-	entities.Post
-	Comments []CommentRepository
+	Title  string
+	Text   string
+	Author *entities.User
 }
 
 type PostRepository struct {
@@ -21,8 +21,8 @@ type PostRepository struct {
 
 func (pr *PostRepository) Create(p *entities.Post) (uint, error) {
 	obj := PostModel{
-		Title: p.Title,
-		Text: p.Text,
+		Title:  p.Title,
+		Text:   p.Text,
 		Author: p.Author,
 	}
 
