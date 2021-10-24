@@ -33,5 +33,5 @@ func (pv *PostViews) Get(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err})
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": posts})
+	c.JSON(http.StatusOK, gin.H{"message": posts})
 }

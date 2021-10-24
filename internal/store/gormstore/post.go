@@ -33,12 +33,23 @@ func (pr *PostRepository) Create(p *entities.Post) (uint, error) {
 	return obj.ID, nil
 }
 
-func (pr *PostRepository) Get() ([]entities.Post, error) {
-	var posts []PostModel
+func (pr *PostRepository) Get() ([]*entities.Post, error) {
+	var dbPosts []PostModel
 
-	if result := pr.store.db.Find(&posts); result.Error != nil {
+	// Getting results
+	if result := pr.store.db.Find(&dbPosts); result.Error != nil {
 		log.Printf("Error on creating post in database: %v", result.Error)
 		return nil, result.Error
+	}
+
+	// Converting from []PostModel to []*entities.Post
+	posts := make([]*entities.Post, len(dbPosts))
+	for _, dbPost := range dbPosts {
+		posts = append(posts, &entities.Post{
+			Title: dbPost.Title,
+			Text: dbPost.Text,
+			Author: dbPost.Author,
+		})
 	}
 
 	return posts, nil

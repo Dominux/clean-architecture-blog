@@ -28,6 +28,6 @@ func (ps *PostService) Create(title string, text string, author string) (uint, e
 	return postRepositoryID, nil
 }
 
-func (ps *PostService) Get() ([]entities.Post, error) {
+func (ps *PostService) Get() ([]*entities.Post, error) {
 	return ps.Store.Post().Get()
 }
