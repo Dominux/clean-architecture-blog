@@ -25,3 +25,13 @@ func (pv *PostViews) Create(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{"message": id})
 }
+
+func (pv *PostViews) Get(c *gin.Context) {
+	posts, err := pv.service.Get()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err})
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": posts})
+}

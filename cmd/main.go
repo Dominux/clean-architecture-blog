@@ -25,6 +25,7 @@ func main() {
 
 	// Creating router and filling it
 	router := gin.Default()
+	router.GET("/posts", webViews.Post().Get)
 	router.POST("/posts", webViews.Post().Create)
 
 	// Starting router
