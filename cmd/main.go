@@ -30,8 +30,8 @@ func main() {
 	{
 		postsRouter.POST("/", webViews.Post().Create)
 		postsRouter.GET("/", webViews.Post().List)
-		postsRouter.PUT("/:id", webViews.Post().Receive)
 		postsRouter.GET("/:id", webViews.Post().Receive)
+		postsRouter.PUT("/", webViews.Post().Update)
 	}
 
 	// Starting router

@@ -64,7 +64,12 @@ func (pv *PostViews) Receive(c *gin.Context) {
 }
 
 func (pv *PostViews) Update(c *gin.Context) {
-	rawID := c.Param("id")
+	rawID := c.Query("id")
+	if rawID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "id query param is not provided"})
+		return
+	}
+
 	id, err := strconv.ParseUint(rawID, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -81,5 +86,5 @@ func (pv *PostViews) Update(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": post.Author})
+	c.JSON(http.StatusOK, gin.H{"message": post})
 }
