@@ -25,8 +25,13 @@ func main() {
 
 	// Creating router and filling it
 	router := gin.Default()
-	router.GET("/posts", webViews.Post().Get)
-	router.POST("/posts", webViews.Post().Create)
+
+	postsRouter := router.Group("/posts")
+	{
+		postsRouter.POST("/", webViews.Post().Create)
+		postsRouter.GET("/", webViews.Post().List)
+		postsRouter.GET("/:id", webViews.Post().GetObject)
+	}
 
 	// Starting router
 	router.Run()

@@ -19,6 +19,10 @@ func (s *Store) MigrateSchema() {
 	s.db.AutoMigrate(&PostModel{})
 }
 
+func (s *Store) IsErrorNotFound() error {
+	return gorm.ErrRecordNotFound
+}
+
 func (s *Store) Post() store.PostRepository {
 	if s.postRepository == nil {
 		s.postRepository = &PostRepository{
