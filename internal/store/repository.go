@@ -6,6 +6,7 @@ type PostRepository interface {
 	Create(p *entities.Post) (uint, error)
 	Get() ([]*entities.Post, error)
 	GetByID(id uint) (*entities.Post, error)
+	Update(id uint, values map[string]interface{}) (*entities.Post, error)
 }
 
 type CommentRepository interface {

@@ -78,3 +78,21 @@ func (pr *PostRepository) GetByID(id uint) (*entities.Post, error) {
 
 	return postObj, err
 }
+
+func (pr *PostRepository) Update(id uint, values map[string]interface{}) (*entities.Post, error) {
+	var post PostModel
+
+	err := pr.store.db.Model(&post).Where("id = ?", id).Updates(values).Error
+	if err != nil {
+		return nil, err
+	}
+
+	// Converting from []PostModel to []*entities.Post
+	postObj := &entities.Post{
+		Title:  post.Title,
+		Text:   post.Text,
+		Author: post.Author,
+	}
+
+	return postObj, err
+}

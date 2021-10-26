@@ -40,7 +40,7 @@ func (pv *PostViews) List(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": posts})
 }
 
-func (pv *PostViews) GetObject(c *gin.Context) {
+func (pv *PostViews) Receive(c *gin.Context) {
 	rawID := c.Param("id")
 	id, err := strconv.ParseUint(rawID, 10, 64)
 	if err != nil {
@@ -61,4 +61,25 @@ func (pv *PostViews) GetObject(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": post})
+}
+
+func (pv *PostViews) Update(c *gin.Context) {
+	rawID := c.Param("id")
+	id, err := strconv.ParseUint(rawID, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	post, err := pv.service.Update(uint(id), map[string]interface{}{
+		"title":  c.PostForm("title"),
+		"text":   c.PostForm("text"),
+		"author": c.PostForm("author"),
+	})
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": post.Author})
 }
