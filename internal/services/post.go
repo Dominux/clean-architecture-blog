@@ -31,3 +31,15 @@ func (ps *PostService) Create(title string, text string, author string) (uint, e
 func (ps *PostService) Get() ([]*entities.Post, error) {
 	return ps.Store.Post().Get()
 }
+
+func (ps *PostService) GetByID(id uint) (*entities.Post, error) {
+	return ps.Store.Post().GetByID(id)
+}
+
+func (ps *PostService) Update(id uint, values map[string]interface{}) (*entities.Post, error) {
+	return ps.Store.Post().Update(id, values)
+}
+
+func (ps *PostService) Delete(id uint) error {
+	return ps.Store.Post().Delete(id)
+}

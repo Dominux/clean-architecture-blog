@@ -2,6 +2,7 @@ package gormstore
 
 import (
 	"log"
+	"time"
 
 	"gorm.io/gorm"
 
@@ -9,10 +10,14 @@ import (
 )
 
 type PostModel struct {
-	gorm.Model
-	Title  string
-	Text   string
-	Author *entities.User
+	// Some part was got from gorm.Model
+	ID        uint `gorm:"primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+	Title     string
+	Text      string
+	Author    *entities.User
 }
 
 type PostRepository struct {
@@ -46,11 +51,52 @@ func (pr *PostRepository) Get() ([]*entities.Post, error) {
 	posts := make([]*entities.Post, len(dbPosts))
 	for _, dbPost := range dbPosts {
 		posts = append(posts, &entities.Post{
-			Title: dbPost.Title,
-			Text: dbPost.Text,
+			Title:  dbPost.Title,
+			Text:   dbPost.Text,
 			Author: dbPost.Author,
 		})
 	}
 
 	return posts, nil
+}
+
+func (pr *PostRepository) GetByID(id uint) (*entities.Post, error) {
+	post := &PostModel{}
+
+	// Executing query
+	err := pr.store.db.First(post, PostModel{ID: id}).Error
+	if err != nil {
+		return nil, err
+	}
+
+	// Converting from []PostModel to []*entities.Post
+	postObj := &entities.Post{
+		Title:  post.Title,
+		Text:   post.Text,
+		Author: post.Author,
+	}
+
+	return postObj, err
+}
+
+func (pr *PostRepository) Update(id uint, values map[string]interface{}) (*entities.Post, error) {
+	var post PostModel
+
+	err := pr.store.db.Model(&post).Where("id = ?", id).Updates(values).Error
+	if err != nil {
+		return nil, err
+	}
+
+	// Converting from []PostModel to []*entities.Post
+	postObj := &entities.Post{
+		Title:  post.Title,
+		Text:   post.Text,
+		Author: post.Author,
+	}
+
+	return postObj, err
+}
+
+func (pr *PostRepository) Delete(id uint) error {
+	return pr.store.db.Delete(&PostModel{}, id).Error
 }
