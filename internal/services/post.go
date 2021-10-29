@@ -39,3 +39,7 @@ func (ps *PostService) GetByID(id uint) (*entities.Post, error) {
 func (ps *PostService) Update(id uint, values map[string]interface{}) (*entities.Post, error) {
 	return ps.Store.Post().Update(id, values)
 }
+
+func (ps *PostService) Delete(id uint) error {
+	return ps.Store.Post().Delete(id)
+}

@@ -31,7 +31,8 @@ func main() {
 		postsRouter.POST("/", webViews.Post().Create)
 		postsRouter.GET("/", webViews.Post().List)
 		postsRouter.GET("/:id", webViews.Post().Receive)
-		postsRouter.PUT("/", webViews.Post().Update)
+		postsRouter.PUT("/:id", webViews.Post().Update)
+		postsRouter.DELETE("/:id", webViews.Post().Delete)
 	}
 
 	// Starting router

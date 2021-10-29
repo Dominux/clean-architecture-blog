@@ -96,3 +96,7 @@ func (pr *PostRepository) Update(id uint, values map[string]interface{}) (*entit
 
 	return postObj, err
 }
+
+func (pr *PostRepository) Delete(id uint) error {
+	return pr.store.db.Delete(&PostModel{}, id).Error
+}

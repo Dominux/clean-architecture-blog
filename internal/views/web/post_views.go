@@ -64,12 +64,7 @@ func (pv *PostViews) Receive(c *gin.Context) {
 }
 
 func (pv *PostViews) Update(c *gin.Context) {
-	rawID := c.Query("id")
-	if rawID == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "id query param is not provided"})
-		return
-	}
-
+	rawID := c.Param("id")
 	id, err := strconv.ParseUint(rawID, 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -87,4 +82,27 @@ func (pv *PostViews) Update(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": post})
+}
+
+func (pv *PostViews) Delete(c *gin.Context) {
+	rawID := c.Param("id")
+	id, err := strconv.ParseUint(rawID, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = pv.service.Delete(uint(id))
+	if err != nil {
+		if errors.Is(err, pv.service.Store.IsErrorNotFound()) {
+			// Returing 404
+			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		} else {
+			// Returning 400
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
+		return
+	}
+
+	c.Status(http.StatusNoContent)
 }

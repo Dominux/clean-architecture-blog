@@ -12,6 +12,7 @@ type PostViews interface {
 	List(c *gin.Context)
 	Receive(c *gin.Context)
 	Update(c *gin.Context)
+	Delete(c *gin.Context)
 }
 
 type CommentViews interface {
