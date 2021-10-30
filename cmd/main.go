@@ -26,13 +26,16 @@ func main() {
 	// Creating router and filling it
 	router := gin.Default()
 
-	postsRouter := router.Group("/posts")
+	api_router := router.Group("/api")
 	{
-		postsRouter.POST("/", webViews.Post().Create)
-		postsRouter.GET("/", webViews.Post().List)
-		postsRouter.GET("/:id", webViews.Post().Receive)
-		postsRouter.PUT("/:id", webViews.Post().Update)
-		postsRouter.DELETE("/:id", webViews.Post().Delete)
+		postsRouter := api_router.Group("/posts")
+		{
+			postsRouter.POST("/", webViews.Post().Create)
+			postsRouter.GET("/", webViews.Post().List)
+			postsRouter.GET("/:id", webViews.Post().Receive)
+			postsRouter.PUT("/:id", webViews.Post().Update)
+			postsRouter.DELETE("/:id", webViews.Post().Delete)
+		}
 	}
 
 	// Starting router
