@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import { PostData } from './types'
-import PostItem from './post-item'
+import PostItem from '../components/post-item'
 
 const getPosts = async (): Promise<Array<PostData>> => {
   const response = await axios.get(`/api/posts/`)
@@ -21,6 +21,7 @@ const Home: React.FC = () => {
     <React.Fragment>
       {posts.map((post) => (
         <PostItem
+          id={post.id}
           author={post.author}
           title={post.title}
           text={post.text}

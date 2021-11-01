@@ -18,7 +18,11 @@ func (ps *PostService) Create(title string, text string, author string) (uint, e
 	// Conversion
 	a := entities.User(author)
 
-	post := entities.NewPost(title, text, &a)
+	post := &entities.Post{
+		Title:  title,
+		Text:   text,
+		Author: &a,
+	}
 
 	postRepositoryID, err := ps.Store.Post().Create(post)
 	if err != nil {

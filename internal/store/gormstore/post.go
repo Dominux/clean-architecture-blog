@@ -51,6 +51,7 @@ func (pr *PostRepository) Get() ([]*entities.Post, error) {
 	posts := make([]*entities.Post, len(dbPosts))
 	for _, dbPost := range dbPosts {
 		posts = append(posts, &entities.Post{
+			ID:     dbPost.ID,
 			Title:  dbPost.Title,
 			Text:   dbPost.Text,
 			Author: dbPost.Author,
@@ -71,6 +72,7 @@ func (pr *PostRepository) GetByID(id uint) (*entities.Post, error) {
 
 	// Converting from []PostModel to []*entities.Post
 	postObj := &entities.Post{
+		ID:     post.ID,
 		Title:  post.Title,
 		Text:   post.Text,
 		Author: post.Author,
@@ -89,6 +91,7 @@ func (pr *PostRepository) Update(id uint, values map[string]interface{}) (*entit
 
 	// Converting from []PostModel to []*entities.Post
 	postObj := &entities.Post{
+		ID:     post.ID,
 		Title:  post.Title,
 		Text:   post.Text,
 		Author: post.Author,
