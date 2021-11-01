@@ -1,6 +1,9 @@
 package main
 
 import (
+	"net/http"
+	"strings"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/sqlite"
@@ -9,6 +12,8 @@ import (
 	"github.com/Dominux/clean_architecture_blog/internal/store/gormstore"
 	"github.com/Dominux/clean_architecture_blog/internal/views/web"
 )
+
+const static = "frontend/build"
 
 func main() {
 	// Creating db
@@ -27,6 +32,18 @@ func main() {
 	// Creating router and filling it
 	router := gin.Default()
 	router.Use(cors.Default())
+	router.LoadHTMLGlob(static + "/*.html")
+	router.Static("/static", static+"/static")
+
+	router.Use(func(c *gin.Context) {
+		// Pass api requests
+		if strings.HasPrefix(c.Request.URL.Path, "/api") {
+			c.Next()
+			return
+		}
+
+		c.HTML(http.StatusOK, "index.html", nil)
+	})
 
 	api_router := router.Group("/api")
 	{
