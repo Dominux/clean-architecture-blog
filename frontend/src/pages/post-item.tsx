@@ -5,7 +5,7 @@ import { PostData } from './types'
 
 const Post: React.FC<PostData> = (props: PostData) => {
   return (
-    <Card>
+    <Card sx={{ my: 3 }}>
       <CardContent>
         <Typography variant="h5">{props.author}</Typography>
         <Typography variant="h4">{props.title}</Typography>

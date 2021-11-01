@@ -1,9 +1,9 @@
 package entities
 
 type Post struct {
-	Title  string
-	Text   string
-	Author *User
+	Title  string `json:"title"`
+	Text   string `json:"text"`
+	Author *User  `json:"author"`
 }
 
 func NewPost(title string, text string, author *User) *Post {

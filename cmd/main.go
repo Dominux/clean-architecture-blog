@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/sqlite"
 
@@ -25,6 +26,7 @@ func main() {
 
 	// Creating router and filling it
 	router := gin.Default()
+	router.Use(cors.Default())
 
 	api_router := router.Group("/api")
 	{

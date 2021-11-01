@@ -33,7 +33,7 @@ export default function App() {
         </AppBar>
       </Box>
 
-      <Container maxWidth="md">
+      <Container maxWidth="sm">
         {/* Webpage */}
         <Router>
           <Switch>
