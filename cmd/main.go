@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/gin-contrib/cors"
@@ -29,21 +30,26 @@ func main() {
 	// Creating views
 	webViews := web.New(store)
 
-	// Creating router and filling it
+	// Creating router
 	router := gin.Default()
-	router.Use(cors.Default())
-	router.LoadHTMLGlob(static + "/*.html")
-	router.Static("/static", static+"/static")
 
-	router.Use(func(c *gin.Context) {
-		// Pass api requests
-		if strings.HasPrefix(c.Request.URL.Path, "/api") {
-			c.Next()
-			return
-		}
+	// Setting router settings according to frontend mode
+	if os.Getenv("FRONTEND_MODE") == "SSG" {
+		router.LoadHTMLGlob(static + "/*.html")
+		router.Static("/static", static+"/static")
 
-		c.HTML(http.StatusOK, "index.html", nil)
-	})
+		router.Use(func(c *gin.Context) {
+			// Pass api requests
+			if strings.HasPrefix(c.Request.URL.Path, "/api") {
+				c.Next()
+				return
+			}
+
+			c.HTML(http.StatusOK, "index.html", nil)
+		})
+	} else {
+		router.Use(cors.Default())
+	}
 
 	api_router := router.Group("/api")
 	{

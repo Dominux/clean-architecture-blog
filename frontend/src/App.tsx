@@ -9,8 +9,13 @@ import {
   Container,
 } from '@mui/material'
 import { Menu } from '@mui/icons-material'
+import axios from 'axios'
 
 import Home from './pages'
+
+axios.defaults.baseURL = `${process.env.PROTOCOL || 'http'}://${
+  process.env.HOST || 'localhost'
+}:${process.env.PORT || 8080}`
 
 export default function App() {
   return (
@@ -22,11 +27,7 @@ export default function App() {
             <Typography variant="h5" color="inherit" component="div">
               Blog
             </Typography>
-            <IconButton
-              color="inherit"
-              aria-label="menu"
-              sx={{ ml: 'auto' }}
-            >
+            <IconButton color="inherit" aria-label="menu" sx={{ ml: 'auto' }}>
               <Menu />
             </IconButton>
           </Toolbar>
