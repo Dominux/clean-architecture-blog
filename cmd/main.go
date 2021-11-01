@@ -13,7 +13,7 @@ import (
 	"github.com/Dominux/clean_architecture_blog/internal/views/web"
 )
 
-const static = "frontend/build"
+const static = "templates"
 
 func main() {
 	// Creating db

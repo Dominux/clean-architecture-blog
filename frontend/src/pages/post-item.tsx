@@ -3,7 +3,7 @@ import { Card, CardContent, Typography } from '@mui/material'
 
 import { PostData } from './types'
 
-const Post: React.FC<PostData> = (props: PostData) => {
+const Post: React.FC<PostData> = props => {
   return (
     <Card sx={{ my: 3 }}>
       <CardContent>

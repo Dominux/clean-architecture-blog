@@ -1,0 +1,8 @@
+# editor/git/docker files
+.editorconfig
+.gitattributes
+.gitignore
+.dockerignore
+
+# DB files
+*.db

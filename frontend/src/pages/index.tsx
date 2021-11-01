@@ -5,7 +5,7 @@ import { PostData } from './types'
 import PostItem from './post-item'
 
 const getPosts = async (): Promise<Array<PostData>> => {
-  const response = await axios.get('http://localhost:8080/api/posts/')
+  const response = await axios.get(`/api/posts/`)
   return response.data.message.filter((e: PostData | null) => e)
 }
 
