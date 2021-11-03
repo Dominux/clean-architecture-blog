@@ -3,7 +3,7 @@ Attempt to implement ideas of [the Clean Architecure](https://blog.cleancoder.co
 
 ## Setup and run
 
-Control host/port through env vars in the `.env` file.
+Control host/port via setting env vars in the `.env` file.
 
 ```bash
 docker-compose up
